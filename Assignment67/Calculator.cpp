@@ -74,11 +74,59 @@ String Calculator::makePostFix()
 	{
 		postf.Concat(token.getItem(i));
 	}
+	delete[] &tokens;
+	tokens = token;
 	return postf;
 }
 
 int Calculator::evaluation()
 {
+	//연산자를 만날때까지 진행
+	//연산자를 마주치면,
+	//연산자 위치를 n이라 하고
+	//n-1, n-2가 항상 존재하며, 피연산자임.
+	//n-1과 n-2를 해당 op로 계산하고 새로 스택에 삽입
+	//연산자와 n-1, n-2번을 제거하고 연산 결과를 대신 삽입한다.
+	//
+	for (int i = 0; i < tokens.length; i++)
+	{
+		if (!tokens.getItem(i).isDigit())
+		{
+			//숫자가 아님
+			//해당 시점에서 n-2를 세번빼고 계산한다음 n-2번위치에 결과값을 집어넣는다.
+			int operand1 = tokens.getItem(i - 2).toInt32();
+			int operand2 = tokens.getItem(i - 1).toInt32();
+			char op = getOpCharacter(tokens.getItem(i));
+			tokens.removeAt(i - 2);
+			tokens.removeAt(i - 2);
+			tokens.removeAt(i - 2);
+			//연산하고 다음인덱스로 넘어감
+			int result = 0;
+			switch (op)
+			{
+				case '+':
+					result = operand1 + operand2;
+					break;
+				case '-':
+					result = operand1 - operand2;
+					break;
+				case '*':
+					result = operand1 * operand2;
+					break;
+				case '/':
+					result = operand1 / operand2;
+					break;
+			}
+			String resultString((char *)"",1);
+			//integer to String
+			char buff[256];
+			sprintf(buff, "%d", result);
+			resultString.Concat(String(buff, strlen(buff)));
+			tokens.insertItem(i-2, resultString);
+		}
+	}
+	//연산이 끝나고 나면 토큰은 단 하나만 남아야 함.
+	value = tokens.getItem(0).toInt32();
 	return 0;
 }
 
@@ -120,6 +168,12 @@ char Calculator::getOpCharacter(String s)
 	return 0;
 }
 
+String Calculator::itos(int value)
+{
+	
+	return String();
+}
+
 Calculator::Calculator()
 {
 	postfix = String();
@@ -127,6 +181,8 @@ Calculator::Calculator()
 
 Calculator::~Calculator()
 {
+	delete[] &tokens;
+	delete[] &postfix;
 }
 
 int Calculator::setExpression(const char* expr)
@@ -144,8 +200,8 @@ int Calculator::setExpression(const char* expr)
 		list++;
 		ptr = strtok(NULL, " ");      // 다음 문자열을 잘라서 포인터를 반환
 	}
-	String expr = makePostFix();
-
+	postfix = makePostFix();
+	evaluation();
 	delete[] expression;
 	return 0;
 }

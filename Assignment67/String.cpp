@@ -1,6 +1,7 @@
 #include "String.h"
 #include <iostream>
 #include <cctype>
+#include <cstdlib>
 
 using namespace std;
 
@@ -110,6 +111,16 @@ bool String::isDigit()
 		if (!isdigit(buffer[i])) return false;
 	}
 	return true;
+}
+
+int String::toInt32()
+{
+	if (isDigit)
+	{
+		int num = atoi(buffer);
+		return num;
+	}
+	return 0;
 }
 
 int String::Length()

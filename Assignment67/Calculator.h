@@ -42,6 +42,8 @@ private:
     bool getOpPriority(const char op1, const char op2);
 
     char getOpCharacter(String s);
+
+    String itos(int value);
 public:
     Calculator();
     ~Calculator();

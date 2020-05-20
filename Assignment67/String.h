@@ -25,5 +25,6 @@ public:
 	int Find(String pattern);
 	void Print();
 	bool isDigit();
+	int toInt32();
 	friend ostream& operator<<(ostream& os, String& s);
 };
