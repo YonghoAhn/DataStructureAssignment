@@ -7,8 +7,8 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	char expr[1000];
-	Calculator c;
-
+	Calculator c = Calculator();
+		
 	cout << "수식을 입력하시오 : ";
 	cin.getline(expr, 1000);
 

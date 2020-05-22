@@ -13,7 +13,7 @@ public:
 
     void Pop();
 
-    T* Top(T& x);
+    T* Top();
     void Print();
 private:
     int top;
@@ -57,10 +57,10 @@ void Stack<T>::Pop()
 }
 
 template <class T>
-T* Stack<T>::Top(T& x)
+T* Stack<T>::Top()
 {
     if (IsEmpty()) throw "Stack is empty";
-    return stack[top];
+    return &stack[top];
 }
 
 template <class T>

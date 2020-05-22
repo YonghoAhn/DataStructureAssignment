@@ -38,7 +38,6 @@ String::~String()
 
 String& String::operator=(const String& s)
 {
-	delete[] buffer;
 	buffer = new char[s.length + 1];
 	for (int i = 0; i < s.length; i++)
 		buffer[i] = s.buffer[i];
@@ -115,12 +114,8 @@ bool String::isDigit()
 
 int String::toInt32()
 {
-	if (isDigit)
-	{
 		int num = atoi(buffer);
 		return num;
-	}
-	return 0;
 }
 
 int String::Length()
